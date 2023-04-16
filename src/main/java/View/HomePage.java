@@ -262,7 +262,32 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+         StringBuilder sp = new StringBuilder();
+       if(txtID.getText().equals("")){
+           sp.append("ID can not Empty\n");
+           txtID.setBackground(Color.red);
+       }else{
+           txtID.setBackground(Color.white);
+       }
+        if(sp.length()>0){
+            JOptionPane.showMessageDialog(this, sp.toString(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        int choice = JOptionPane.showConfirmDialog(this, "Do you Want to Delete this option?", "Question", JOptionPane.YES_NO_OPTION);
+        if(choice == JOptionPane.NO_OPTION){
+            return;
+        }
+        
+        for (Racket racket : List) {
+            if(racket.getID().equals(txtID.getText())){
+                List.remove(racket);
+                
+                break;
+            }
+        }
+        fillTable();
+        
+        btnResetActionPerformed(evt);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
