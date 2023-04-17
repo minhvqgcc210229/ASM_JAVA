@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 
 
@@ -47,6 +52,22 @@ public class HomePage extends javax.swing.JFrame {
         }
         tblModel.fireTableDataChanged();
     }
+    
+    private void saveFile(){
+    try{
+        String filePath = null;
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath));
+    } catch(FileNotFoundException e){
+        System.err.println("File not Found!");
+    }catch(IOException ex){
+        System.err.println("Fail!");
+    }
+    }
+    
+    private void loadFile(){
+        
+    }
+    
     private void initData(){
         List.add(new Racket("01","yonex Axtrox 99",15,3900000));
         List.add(new Racket("02","yonex Axtrox 99 pro",20,3990000));
@@ -85,6 +106,7 @@ public class HomePage extends javax.swing.JFrame {
         tblRacket = new javax.swing.JTable();
         ftfAmount = new javax.swing.JFormattedTextField();
         ftfPrice = new javax.swing.JFormattedTextField();
+        btnLogout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -159,6 +181,13 @@ public class HomePage extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblRacket);
 
+        btnLogout.setText("Logout");
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -178,9 +207,8 @@ public class HomePage extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(txtName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
                                     .addComponent(txtID)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(ftfPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
-                                        .addComponent(ftfAmount, javax.swing.GroupLayout.Alignment.LEADING))))
+                                    .addComponent(ftfPrice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
+                                    .addComponent(ftfAmount, javax.swing.GroupLayout.Alignment.LEADING)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(25, 25, 25)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -192,7 +220,9 @@ public class HomePage extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(btnDelete)
                         .addGap(43, 43, 43)
-                        .addComponent(btnReset))
+                        .addComponent(btnReset)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnLogout))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(251, 251, 251)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -224,7 +254,8 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(btnAdd)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete)
-                    .addComponent(btnReset))
+                    .addComponent(btnReset)
+                    .addComponent(btnLogout))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(241, 241, 241))
@@ -257,8 +288,13 @@ public class HomePage extends javax.swing.JFrame {
         Racket.setPrice(Integer.valueOf(ftfPrice.getText()));
         
         List.add(Racket);
+        saveFile();
         
         fillTable();
+        
+        btnResetActionPerformed(evt);
+        
+        
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -357,12 +393,26 @@ public class HomePage extends javax.swing.JFrame {
        ftfPrice.setText("");
     }//GEN-LAST:event_btnResetActionPerformed
 
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+     
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]){
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        try{
+            File caulong = new File("Racket.txt");
+            if(caulong.createNewFile()){
+                System.out.println("File created" + caulong.getName());
+            }else{
+                System.out.println("File already exists.");
+            }
+        }catch (IOException ex) {
+             System.out.println("An error occurred.");
+              
+        }//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
@@ -397,6 +447,7 @@ public class HomePage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JFormattedTextField ftfAmount;
@@ -411,4 +462,6 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
+
+    
 }
