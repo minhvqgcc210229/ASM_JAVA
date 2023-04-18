@@ -127,6 +127,7 @@ public class Login extends javax.swing.JFrame {
        if(username.equals("Admin") && password.equals("Admin123")){
            sp.append("Login Successfully!\n");
            new HomePage().setVisible(true);
+           this.setVisible(false);
        }else{
            JOptionPane.showMessageDialog(this, "Login fail!", "Failure", JOptionPane.ERROR_MESSAGE);
        }

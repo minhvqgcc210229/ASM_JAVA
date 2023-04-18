@@ -19,6 +19,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.midi.SysexMessage;
 
 
 
@@ -74,6 +75,7 @@ public class HomePage extends javax.swing.JFrame {
     }
     
     private boolean loadFile(){
+        StringBuilder sp = new StringBuilder();
         try{
             FileInputStream fis = new FileInputStream(filePath);
             ObjectInputStream ois = new ObjectInputStream(fis);
@@ -83,10 +85,13 @@ public class HomePage extends javax.swing.JFrame {
             return true;
         }catch (FileNotFoundException ex) {
             System.err.println("File not found");
+            JOptionPane.showMessageDialog(this, sp.toString(),"File not found", JOptionPane.ERROR_MESSAGE);
         }catch(IOException ex){
             System.err.println("IOException");
+            JOptionPane.showMessageDialog(this, sp.toString(),"IOException", JOptionPane.ERROR_MESSAGE);
         }catch(ClassNotFoundException ex){
             System.err.println("Class not found");
+            JOptionPane.showMessageDialog(this, sp.toString(), "Class not found", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
@@ -292,6 +297,9 @@ public class HomePage extends javax.swing.JFrame {
        if(txtID.getText().equals("")){
            sp.append("ID can not Empty\n");
            txtID.setBackground(Color.red);
+       }else if(txtID.getText().equals(txtID.getText())){
+           sp.append("ID already exists ");
+           return;
        }else{
            txtID.setBackground(Color.white);
        }
@@ -299,6 +307,7 @@ public class HomePage extends javax.swing.JFrame {
            sp.append("Name can not Empty\n");
            txtName.setBackground(Color.pink);
        }else{
+            
             txtName.setBackground(Color.white);
         }
         if(sp.length()>0){
@@ -311,7 +320,7 @@ public class HomePage extends javax.swing.JFrame {
         Racket.setPrice(Integer.valueOf(ftfPrice.getText()));
         
         List.add(Racket);
-//        saveFile();
+
         
         fillTable();
         saveFile();
@@ -389,6 +398,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         fillTable();
+        loadFile();
     }//GEN-LAST:event_formWindowOpened
 
     private void tblRacketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRacketMouseClicked
