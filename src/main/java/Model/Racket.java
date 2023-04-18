@@ -4,11 +4,13 @@
  */
 package Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author vuong
  */
-public class Racket {
+public class Racket implements Serializable{
     private String ID;
     private String Name;
     private Integer  Amount;

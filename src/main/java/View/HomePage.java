@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 public class HomePage extends javax.swing.JFrame {
      private List<Racket> List = new ArrayList<>();
      private DefaultTableModel tblModel = new DefaultTableModel();
+     private String filePath;
     /**
      * Creates new form HomePage
      */
@@ -43,10 +44,12 @@ public class HomePage extends javax.swing.JFrame {
         initComponents();
         
         setLocationRelativeTo(null);
-        
+        filePath = "./src/main/java/Data/Racket.txt";
         fillTable();
         initTable();
         initData();
+        
+        
     }
     private void fillTable(){
        tblModel.setRowCount(0);
@@ -59,8 +62,10 @@ public class HomePage extends javax.swing.JFrame {
     
     private void saveFile(){
     try{
-        String filePath = null;
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath));
+        oos.writeObject(List);
+        oos.flush();
+        oos.close();
     } catch(FileNotFoundException e){
         System.err.println("File not Found!");
     }catch(IOException ex){
@@ -68,15 +73,22 @@ public class HomePage extends javax.swing.JFrame {
     }
     }
     
-    private void loadFile(){
+    private boolean loadFile(){
         try{
             FileInputStream fis = new FileInputStream(filePath);
             ObjectInputStream ois = new ObjectInputStream(fis);
+            List = (ArrayList<Racket>) ois.readObject();
+            ois.close();
+            fis.close();
+            return true;
         }catch (FileNotFoundException ex) {
-            Logger.getLogger(TableForm.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("File not found");
         }catch(IOException ex){
-            Logger.getLogger(TableForm.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("IOException");
+        }catch(ClassNotFoundException ex){
+            System.err.println("Class not found");
         }
+        return false;
     }
     
     private void initData(){
@@ -269,7 +281,7 @@ public class HomePage extends javax.swing.JFrame {
                     .addComponent(btnLogout))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(241, 241, 241))
+                .addGap(37, 37, 37))
         );
 
         pack();
@@ -299,10 +311,10 @@ public class HomePage extends javax.swing.JFrame {
         Racket.setPrice(Integer.valueOf(ftfPrice.getText()));
         
         List.add(Racket);
-        saveFile();
+//        saveFile();
         
         fillTable();
-        
+        saveFile();
         btnResetActionPerformed(evt);
         
         
@@ -333,7 +345,7 @@ public class HomePage extends javax.swing.JFrame {
             }
         }
         fillTable();
-        
+        saveFile();
         btnResetActionPerformed(evt);
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -371,7 +383,7 @@ public class HomePage extends javax.swing.JFrame {
             }
         }
         fillTable();
-        
+        saveFile();
         btnResetActionPerformed(evt);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -405,7 +417,8 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
-     
+        new Login().setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnLogoutActionPerformed
 
     /**
@@ -413,17 +426,7 @@ public class HomePage extends javax.swing.JFrame {
      */
     public static void main(String args[]){
         /* Set the Nimbus look and feel */
-        try{
-            File caulong = new File("Racket.txt");
-            if(caulong.createNewFile()){
-                System.out.println("File created" + caulong.getName());
-            }else{
-                System.out.println("File already exists.");
-            }
-        }catch (IOException ex) {
-             System.out.println("An error occurred.");
-              
-        }//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
