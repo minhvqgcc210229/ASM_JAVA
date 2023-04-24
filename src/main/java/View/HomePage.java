@@ -46,9 +46,18 @@ public class HomePage extends javax.swing.JFrame {
         
         setLocationRelativeTo(null);
         filePath = "./src/main/java/Data/Racket.txt";
+        List = new ArrayList<>();
+        this.setLocationRelativeTo(null);
+        boolean file = loadFile();
+        if(file){
+            fillTable();
+        }else{
+            System.out.println("Nothing to show");
+        }
+        this.setLocationRelativeTo(null);
         fillTable();
         initTable();
-        initData();
+//        initData();
         
         
     }
@@ -85,23 +94,26 @@ public class HomePage extends javax.swing.JFrame {
             return true;
         }catch (FileNotFoundException ex) {
             System.err.println("File not found");
-            JOptionPane.showMessageDialog(this, sp.toString(),"File not found", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, sp.toString(),"File not found", 
+                    JOptionPane.ERROR_MESSAGE);
         }catch(IOException ex){
             System.err.println("IOException");
-            JOptionPane.showMessageDialog(this, sp.toString(),"IOException", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, sp.toString(),"IOException", 
+                    JOptionPane.ERROR_MESSAGE);
         }catch(ClassNotFoundException ex){
             System.err.println("Class not found");
-            JOptionPane.showMessageDialog(this, sp.toString(), "Class not found", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, sp.toString(), "Class not found", 
+                    JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
     
-    private void initData(){
-        List.add(new Racket("01","yonex Axtrox 99",15,3900000));
-        List.add(new Racket("02","yonex Axtrox 99 pro",20,3990000));
-        List.add(new Racket("03","yonex Axtrox 88s",40,2900000));
-        List.add(new Racket("04","yonex Axtrox 100zz",10,4300000));
-    }
+//    private void initData(){
+//        List.add(new Racket("01","yonex Axtrox 99",15,3900000));
+//        List.add(new Racket("02","yonex Axtrox 99 pro",20,3990000));
+//        List.add(new Racket("03","yonex Axtrox 88s",40,2900000));
+//        List.add(new Racket("04","yonex Axtrox 100zz",10,4300000));
+//    }
     private void initTable(){
         String[] columns = new String[]{"ID","Name","Amount","Price"};
         
@@ -143,7 +155,8 @@ public class HomePage extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Badminton racket management");
+        jLabel1.setBackground(java.awt.Color.gray);
+        jLabel1.setText("Badminton Racket Management");
 
         jLabel2.setText("ID");
 
@@ -202,6 +215,7 @@ public class HomePage extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        tblRacket.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tblRacket.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblRacketMouseClicked(evt);
@@ -297,10 +311,8 @@ public class HomePage extends javax.swing.JFrame {
        if(txtID.getText().equals("")){
            sp.append("ID can not Empty\n");
            txtID.setBackground(Color.red);
-       }else if(txtID.getText().equals(txtID.getText())){
-           sp.append("ID already exists ");
-           return;
-       }else{
+       }
+       else{
            txtID.setBackground(Color.white);
        }
         if(txtName.getText().equals("")){
@@ -311,7 +323,9 @@ public class HomePage extends javax.swing.JFrame {
             txtName.setBackground(Color.white);
         }
         if(sp.length()>0){
-            JOptionPane.showMessageDialog(this, sp.toString(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, sp.toString(), "ERROR", 
+                    JOptionPane.ERROR_MESSAGE);
+            return;
         }
         Racket Racket = new Racket();
         Racket.setID(txtID.getText());
@@ -338,10 +352,12 @@ public class HomePage extends javax.swing.JFrame {
            txtID.setBackground(Color.white);
        }
         if(sp.length()>0){
-            JOptionPane.showMessageDialog(this, sp.toString(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, sp.toString(), "ERROR", 
+                    JOptionPane.ERROR_MESSAGE);
         }
         
-        int choice = JOptionPane.showConfirmDialog(this, "Do you Want to Delete this option?", "Question", JOptionPane.YES_NO_OPTION);
+        int choice = JOptionPane.showConfirmDialog(this, "Do you Want to Delete this option?", 
+                "Question", JOptionPane.YES_NO_OPTION);
         if(choice == JOptionPane.NO_OPTION){
             return;
         }
@@ -373,10 +389,12 @@ public class HomePage extends javax.swing.JFrame {
             txtName.setBackground(Color.white);
         }
         if(sp.length()>0){
-            JOptionPane.showMessageDialog(this, sp.toString(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, sp.toString(), "ERROR", 
+                    JOptionPane.ERROR_MESSAGE);
         }
         
-        int choice = JOptionPane.showConfirmDialog(this, "Do you Want to Update this option?", "Question", JOptionPane.YES_NO_OPTION);
+        int choice = JOptionPane.showConfirmDialog(this, "Do you Want to Update this option?", "Question", 
+                JOptionPane.YES_NO_OPTION);
         if(choice == JOptionPane.NO_OPTION){
             return;
         }
@@ -398,7 +416,6 @@ public class HomePage extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         fillTable();
-        loadFile();
     }//GEN-LAST:event_formWindowOpened
 
     private void tblRacketMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRacketMouseClicked

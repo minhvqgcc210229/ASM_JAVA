@@ -121,16 +121,19 @@ public class Login extends javax.swing.JFrame {
            sp.append("Password is empty!\n");
        }
        if(sp.length()>0){
-           JOptionPane.showMessageDialog(this, sp.toString(), "Invalidation", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(this, sp.toString(), "Invalidation", 
+                   JOptionPane.ERROR_MESSAGE);
            return;
        }
        if(username.equals("Admin") && password.equals("Admin123")){
            sp.append("Login Successfully!\n");
            new HomePage().setVisible(true);
-           this.setVisible(false);
+           
        }else{
-           JOptionPane.showMessageDialog(this, "Login fail!", "Failure", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(this, "Login fail!", "Failure", 
+                   JOptionPane.ERROR_MESSAGE);
        }
+       this.setVisible(false);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
